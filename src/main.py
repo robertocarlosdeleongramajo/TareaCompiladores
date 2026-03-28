@@ -1,45 +1,37 @@
-# Tarea: Árbol Sintáctico - Compiladores
-# Fecha: 28 de marzo de 2026
+# src/main.py
+import sys
+import os
 
-class Nodo:
-    def __init__(self, tipo, valor=None):
-        self.tipo = tipo
-        self.valor = valor
-        self.hijos = []
+# Añadir la ruta para que encuentre la carpeta ejemplos
+ruta_src = os.path.dirname(os.path.abspath(__file__))
+if ruta_src not in sys.path:
+    sys.path.append(ruta_src)
 
-    def agregar_hijo(self, hijo):
-        self.hijos.append(hijo)
+try:
+    from ejemplos import ejemplo_if, ejemplo_operacion
+except ImportError as e:
+    print(f"[!] Error: {e}")
+    sys.exit(1)
 
-def mostrar_arbol(nodo, prefijo="", es_ultimo=True):
-    # Formato visual tipo árbol de carpetas
-    conector = "└── " if es_ultimo else "├── "
-    print(f"{prefijo}{conector}{nodo.tipo}{': ' + str(nodo.valor) if nodo.valor else ''}")
-    
-    prefijo += "    " if es_ultimo else "│   "
-    contador = len(nodo.hijos)
-    for i, hijo in enumerate(nodo.hijos):
-        ultimo_hijo = (i == contador - 1)
-        mostrar_arbol(hijo, prefijo, ultimo_hijo)
+def mostrar_menu():
+    while True:
+        print("\n" + "="*45)
+        print("     MENÚ DE ÁRBOLES SINTÁCTICOS (AST)     ")
+        print("="*45)
+        print("1. Generar Árbol: Sentencia IF (JavaScript)")
+        print("2. Generar Árbol: Operación Matemática")
+        print("3. Salir del programa")
+        print("-"*45)
+        
+        opcion = input("Seleccione una opción (1-3): ")
 
-# --- Construcción del Árbol Sintáctico ---
-def ejemplo_javascript():
-    print("Ejemplo 1: if (edad >= 18) { console.log(...) }")
-    raiz = Nodo("SentenciaIf")
-    
-    # Condición
-    cond = Nodo("Comparación", ">=")
-    cond.agregar_hijo(Nodo("ID", "edad"))
-    cond.agregar_hijo(Nodo("Número", "18"))
-    raiz.agregar_hijo(cond)
-    
-    # Cuerpo
-    cuerpo = Nodo("Bloque")
-    print_log = Nodo("Llamada", "console.log")
-    print_log.agregar_hijo(Nodo("String", "'Eres mayor de edad'"))
-    cuerpo.agregar_hijo(print_log)
-    raiz.agregar_hijo(cuerpo)
-    
-    mostrar_arbol(raiz)
+        if opcion == "1":
+            ejemplo_if.ejecutar()
+        elif opcion == "2":
+            ejemplo_operacion.ejecutar()
+        elif opcion == "3":
+            print("\nSaliendo... ¡Éxitos en tu tarea de Compiladores!")
+            break
 
 if __name__ == "__main__":
-    ejemplo_javascript()
+    mostrar_menu()
