@@ -1,8 +1,6 @@
-# src/main.py
 import sys
 import os
 
-# Añadir la ruta para que encuentre la carpeta ejemplos
 ruta_src = os.path.dirname(os.path.abspath(__file__))
 if ruta_src not in sys.path:
     sys.path.append(ruta_src)
